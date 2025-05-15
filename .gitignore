@@ -1,0 +1,9 @@
+# .gitignore
+/data/users.json
+/data/app_config.json
+# Cache ou fichiers spécifiques à l'OS/IDE
+.DS_Store
+Thumbs.db
+*.log
+# Si vous avez une copie de config.php avec la vraie clé pour des tests locaux
+# api/config.local.php
