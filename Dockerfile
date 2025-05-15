@@ -15,11 +15,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     # Dépendances pour pdo_sqlite
     libsqlite3-dev \
-    # Dépendances pour curl (TRÈS IMPORTANT pour l'extension PHP curl)
+    # Dépendances pour curl
     libcurl4-openssl-dev \
-    # On peut aussi ajouter pkg-config qui aide à trouver les librairies
+    # Dépendances pour mbstring (Oniguruma)
+    libonig-dev \
+    # Utilitaires
     pkg-config \
     && docker-php-ext-configure intl \
+    # On pourrait ajouter des options de configuration pour mbstring ici si nécessaire,
+    # mais généralement, les valeurs par défaut avec oniguruma sont bonnes.
+    # Exemple: --enable-mbstring --with-onig
     && docker-php-ext-install -j$(nproc) intl curl mbstring zip pdo pdo_sqlite \
     # Nettoyage pour réduire la taille de l'image
     && apt-get clean \
