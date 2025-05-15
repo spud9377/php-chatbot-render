@@ -7,19 +7,18 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Mettre à jour les listes de paquets, installer les dépendances système nécessaires,
 # configurer et installer les extensions PHP, puis nettoyer.
-# --no-install-recommends aide à réduire la taille de l'image.
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Dépendances pour intl
     libicu-dev \
     # Dépendances pour zip
     libzip-dev \
     zip \
-    # Dépendances pour curl (souvent déjà présentes ou tirées par libcurl4-openssl-dev si nécessaire)
-    # libcurl4-openssl-dev \
     # Dépendances pour pdo_sqlite
     libsqlite3-dev \
-    # Autres utilitaires si besoin
-    # git \
+    # Dépendances pour curl (TRÈS IMPORTANT pour l'extension PHP curl)
+    libcurl4-openssl-dev \
+    # On peut aussi ajouter pkg-config qui aide à trouver les librairies
+    pkg-config \
     && docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) intl curl mbstring zip pdo pdo_sqlite \
     # Nettoyage pour réduire la taille de l'image
@@ -33,13 +32,9 @@ WORKDIR /var/www/html
 COPY . /var/www/html/
 
 # S'assurer que le serveur Apache (www-data) peut écrire dans le dossier data
-# Le dossier data sera monté depuis un disque persistant sur Render.
 RUN mkdir -p /var/www/html/data && \
     chown -R www-data:www-data /var/www/html/data && \
-    chmod -R 775 /var/www/html/data # 775 est un peu plus permissif que 755 si le groupe a besoin d'écrire
+    chmod -R 775 /var/www/html/data
 
 # Apache écoute sur le port 80 par défaut.
 EXPOSE 80
-
-# La commande par défaut de php:8.x-apache est 'apache2-foreground',
-# donc pas besoin de la redéfinir explicitement.

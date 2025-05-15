@@ -15,7 +15,7 @@ define('REQUEST_RATE_LIMIT_SECONDS', 2);
 // echo password_hash("VotreNouveauMotDePasseAdmin", PASSWORD_DEFAULT); die();
 // Puis copiez le hash généré ici.
 define('ADMIN_USERNAME', 'admin');
-define('ADMIN_PASSWORD_HASH', '$2y$10$xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'); // REMPLACEZ PAR UN HASH VALIDE GENERÉ POUR VOTRE MOT DE PASSE ADMIN
+define('ADMIN_PASSWORD_HASH', '$2b$10$CFfvBqX6LjMkJ7GuIfCAguQOOw2YtK./lwyk3Vs9OB7/vKBpFInC6'); // REMPLACEZ PAR UN HASH VALIDE GENERÉ POUR VOTRE MOT DE PASSE ADMIN
 
 // Inclure les fonctions utilitaires
 require_once __DIR__ . '/utils.php';
