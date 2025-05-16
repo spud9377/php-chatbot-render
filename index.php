@@ -1,6 +1,6 @@
 <?php
-require_once 'api/config.php'; // Pour charger $appConfig et ALLOW_REGISTRATION
-$registration_allowed = ALLOW_REGISTRATION ?? true; // Pour le lien d'inscription
+require_once 'api/config.php'; 
+$registration_allowed = ALLOW_REGISTRATION ?? true; 
 $login_message = $_GET['message'] ?? '';
 if (isset($_GET['registration']) && $_GET['registration'] === 'success') {
     $login_message = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
@@ -8,6 +8,9 @@ if (isset($_GET['registration']) && $_GET['registration'] === 'success') {
 if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
     $login_message = "Vous avez été déconnecté.";
 }
+// La variable $appConfig est déjà chargée via config.php puis utils.php
+// On peut l'utiliser pour le system_prompt si besoin, mais pour l'instant
+// elle est surtout utile pour les codes de simulation côté serveur.
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -17,6 +20,7 @@ if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
     <title>Chatbot Pédagogique GPT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.1/remarkable.min.js"></script> <!-- Ajout CDN Remarkable -->
 </head>
 <body>
     <div class="container mt-5">
@@ -50,6 +54,29 @@ if (isset($_GET['logout']) && $_GET['logout'] === 'success') {
                 <?php endif; ?>
             </div>
         </div>
+
+        <!-- Section Code Simulation (initialement cachée) -->
+        <div id="simulation-code-section" class="card shadow-sm mx-auto d-none" style="max-width: 500px;">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-3">Accès à la Simulation</h3>
+                <p class="text-center">Veuillez entrer le code d'accès correspondant à votre profil pour la simulation de négociation.</p>
+                <div class="mb-3">
+                    <label for="simulation-code" class="form-label">Code d'accès Simulation</label>
+                    <input type="text" id="simulation-code" class="form-control" placeholder="Entrez le code (ex: eto)">
+                </div>
+                 <div class="mb-3">
+                    <label for="simulation-role" class="form-label">Choisissez votre rôle</label>
+                    <select id="simulation-role" class="form-select">
+                        <option value="etudiant" selected>Étudiant</option>
+                        <option value="jury">Jury</option>
+                    </select>
+                </div>
+                <button id="submit-simulation-code-btn" class="btn btn-info w-100">Valider le profil de simulation</button>
+                <div id="simulation-code-error" class="text-danger mt-2"></div>
+                <p class="mt-3 text-center"><button id="skip-simulation-btn" class="btn btn-sm btn-link">Utiliser le chatbot normalement (sans simulation)</button></p>
+            </div>
+        </div>
+
 
         <!-- Section Chat (initialement cachée) -->
         <div id="chat-section" class="card shadow-sm d-none mx-auto" style="max-width: 700px;">

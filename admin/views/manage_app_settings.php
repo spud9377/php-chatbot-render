@@ -1,6 +1,6 @@
 <?php
 // admin/views/manage_app_settings.php
-if (!isset($appConfigGlobal)) $appConfigGlobal = loadAppConfig(); // S'assurer que c'est chargé
+if (!isset($appConfigGlobal)) $appConfigGlobal = loadAppConfig(); 
 ?>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Paramètres Généraux de l'Application</h1>
@@ -35,7 +35,24 @@ if (!isset($appConfigGlobal)) $appConfigGlobal = loadAppConfig(); // S'assurer q
                     </div>
                 </div>
             </div>
-             <button type="submit" class="btn btn-primary">Enregistrer les Paramètres Généraux</button>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header">Codes d'Accès Simulation Pédagogique</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="sim_code_etudiant" class="form-label">Code Accès Étudiant</label>
+                        <input type="text" class="form-control" id="sim_code_etudiant" name="simulation_codes[etudiant]" value="<?php echo htmlspecialchars($appConfigGlobal['simulation_codes']['etudiant'] ?? 'eto'); ?>" required>
+                        <div class="form-text">Code que les étudiants doivent entrer pour accéder à la simulation.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sim_code_jury" class="form-label">Code Accès Jury</label>
+                        <input type="text" class="form-control" id="sim_code_jury" name="simulation_codes[jury]" value="<?php echo htmlspecialchars($appConfigGlobal['simulation_codes']['jury'] ?? 'eto'); ?>" required>
+                        <div class="form-text">Code que le jury doit entrer pour accéder aux fonctionnalités jury.</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <button type="submit" class="btn btn-primary mt-3">Enregistrer Tous les Paramètres</button>
 </form>
